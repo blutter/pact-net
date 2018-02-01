@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AuthorizationTokenReplacementMiddleware.cs" />
+    <Compile Remove="TokenGenerator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="PactNet.Windows" Version="2.2.1" />
     <PackageReference Include="xunit" Version="2.3.1" />
