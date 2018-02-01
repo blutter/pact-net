@@ -14,4 +14,9 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\PactNet\PactNet.csproj" />
+    <ProjectReference Include="..\Provider.Api.Web.DotnetCore\Provider.Api.Web.DotnetCore.csproj" />
+  </ItemGroup>
+
 </Project>
