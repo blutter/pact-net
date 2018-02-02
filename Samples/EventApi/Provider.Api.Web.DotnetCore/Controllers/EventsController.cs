@@ -40,7 +40,7 @@ namespace Provider.Api.Web.DotnetCore.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction("GetById", @event.EventId);
+            return CreatedAtAction("Post", @event.EventId);
         }
 
         private IEnumerable<Event> GetAllEventsFromRepo()
