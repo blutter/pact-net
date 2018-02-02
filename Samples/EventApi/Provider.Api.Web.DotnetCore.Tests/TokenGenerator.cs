@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.DataHandler;
 using System.Security.Claims;
-using Microsoft.Owin.Security.DataProtection;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Provider.Api.Web.DotnetCore.Tests
 {
@@ -25,10 +25,13 @@ namespace Provider.Api.Web.DotnetCore.Tests
                 new Claim(ClaimTypes.Role, "PowerUser"),
             };
             var identity = new ClaimsIdentity(claims, "Test");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
 
             // Use the same token generation logic as the OAuthBearer Owin middleware. 
             var tdf = new TicketDataFormat(_dataProtector);
-            var ticket = new AuthenticationTicket(identity, new AuthenticationProperties { ExpiresUtc = DateTime.UtcNow.AddHours(1) });
+            var ticket = new AuthenticationTicket(claimsPrincipal,
+                new AuthenticationProperties { ExpiresUtc = DateTime.UtcNow.AddHours(1) },
+                JwtBearerDefaults.AuthenticationScheme);
             var accessToken = tdf.Protect(ticket);
 
             return accessToken;
