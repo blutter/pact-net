@@ -16,13 +16,13 @@ namespace Provider.Api.Web.DotnetCore.Controllers
             return GetAllEventsFromRepo();
         }
 
-        [Route("events/{id}")]
+        [HttpGet("events/{id}")]
         public Event GetById(Guid id)
         {
             return GetAllEventsFromRepo().First(x => x.EventId == id);
         }
 
-        [Route("events")]
+        [HttpGet("events")]
         public IEnumerable<Event> GetByType(string type)
         {
             if (type == null)
@@ -32,16 +32,16 @@ namespace Provider.Api.Web.DotnetCore.Controllers
             return GetAllEventsFromRepo().Where(x => x.EventType.Equals(type, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        //[Route("events")]
-        //public HttpResponseMessage Post(Event @event)
-        //{
-        //    if (@event == null)
-        //    {
-        //        return new HttpResponseMessage(HttpStatusCode.BadRequest);
-        //    }
+        [HttpPost("events")]
+        public IActionResult Post([FromBody] Event @event)
+        {
+            if (@event == null)
+            {
+                return BadRequest();
+            }
 
-        //    return new HttpResponseMessage(HttpStatusCode.Created);
-        //}
+            return CreatedAtAction("GetById", @event.EventId);
+        }
 
         private IEnumerable<Event> GetAllEventsFromRepo()
         {
