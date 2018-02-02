@@ -10,7 +10,7 @@ namespace Provider.Api.Web.DotnetCore.Controllers
     public class EventsController : Controller
     {
         //[Authorize]
-        [Route("events")]
+        //[Route("events")]
         public IEnumerable<Event> Get()
         {
             return GetAllEventsFromRepo();
@@ -25,6 +25,10 @@ namespace Provider.Api.Web.DotnetCore.Controllers
         [Route("events")]
         public IEnumerable<Event> GetByType(string type)
         {
+            if (type == null)
+            {
+                return Get();
+            }
             return GetAllEventsFromRepo().Where(x => x.EventType.Equals(type, StringComparison.InvariantCultureIgnoreCase));
         }
 
