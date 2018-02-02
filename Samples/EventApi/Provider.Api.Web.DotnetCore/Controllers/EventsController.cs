@@ -16,7 +16,7 @@ namespace Provider.Api.Web.DotnetCore.Controllers
             return GetAllEventsFromRepo();
         }
 
-        [HttpGet("events/{id}")]
+        [HttpGet("events/{id}", Name = "GetEvent")]
         public Event GetById(Guid id)
         {
             return GetAllEventsFromRepo().First(x => x.EventId == id);
@@ -40,7 +40,7 @@ namespace Provider.Api.Web.DotnetCore.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction("Post", @event.EventId);
+            return CreatedAtAction("GetById", new { id = @event.EventId }, @event);
         }
 
         private IEnumerable<Event> GetAllEventsFromRepo()
