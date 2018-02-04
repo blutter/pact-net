@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 
 namespace Provider.Api.Web.DotnetCore.Tests
@@ -31,7 +31,7 @@ namespace Provider.Api.Web.DotnetCore.Tests
             var tdf = new TicketDataFormat(_dataProtector);
             var ticket = new AuthenticationTicket(claimsPrincipal,
                 new AuthenticationProperties { ExpiresUtc = DateTime.UtcNow.AddHours(1) },
-                JwtBearerDefaults.AuthenticationScheme);
+                CookieAuthenticationDefaults.AuthenticationScheme);
             var accessToken = tdf.Protect(ticket);
 
             return accessToken;

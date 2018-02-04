@@ -10,7 +10,7 @@ namespace Provider.Api.Web.DotnetCore.Controllers
     public class EventsController : Controller
     {
         //[Authorize]
-        //[Route("events")]
+        //[HttpGet("events")]
         public IEnumerable<Event> Get()
         {
             return GetAllEventsFromRepo();
@@ -22,14 +22,22 @@ namespace Provider.Api.Web.DotnetCore.Controllers
             return GetAllEventsFromRepo().First(x => x.EventId == id);
         }
 
-        [HttpGet("events")]
-        public IEnumerable<Event> GetByType(string type)
+        [HttpGet("events/{type?}")]
+        [ProducesResponseType(typeof(IEnumerable<Event>), 200)]
+        public IActionResult GetByType([FromQuery] string type)
+        //public IEnumerable<Event> GetByType([FromQuery] string type)
         {
             if (type == null)
             {
-                return Get();
+                if (User.Identity.IsAuthenticated)
+                {
+                    return Ok(Get());
+                } else
+                {
+                    return Unauthorized();
+                }
             }
-            return GetAllEventsFromRepo().Where(x => x.EventType.Equals(type, StringComparison.InvariantCultureIgnoreCase));
+            return Ok(GetAllEventsFromRepo().Where(x => x.EventType.Equals(type, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         [HttpPost("events")]
